@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Contratos - WOLVE</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GERADOR DE CONTRATOS - WOLVE</h1>
+            <p>Sistema de Geração de Contratos de Prestação de Serviços de Segurança</p>
+        </div>
+
+        <!-- Barra de Ações -->
+        <div class="actions-bar">
+            <div class="actions-grid">
+                <button class="btn btn-primary" onclick="gerarContrato()">
+                    GERAR CONTRATO
+                </button>
+                <button class="btn btn-secondary" onclick="limparFormulario()">
+                    LIMPAR TUDO
+                </button>
+                <button class="btn btn-success" onclick="previewContrato()">
+                    PREVIEW
+                </button>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="gerarPDF">
+                    <label for="gerarPDF">Gerar PDF</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 1: Dados do Contratante -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">👤</span>
+                DADOS DO CONTRATANTE
+            </h2>
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="cliente_nome_completo">Nome Completo *</label>
+                    <input type="text" id="cliente_nome_completo" required>
+                </div>
+                <div class="form-group">
+                    <label for="cliente_estado_civil">Estado Civil</label>
+                    <select id="cliente_estado_civil">
+                        <option value="">Selecione...</option>
+                        <option value="solteiro(a)">Solteiro(a)</option>
+                        <option value="casado(a)">Casado(a)</option>
+                        <option value="divorciado(a)">Divorciado(a)</option>
+                        <option value="viúvo(a)">Viúvo(a)</option>
+                        <option value="união estável">União Estável</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cliente_cpf">CPF *</label>
+                    <input type="text" id="cliente_cpf" placeholder="000.000.000-00" required>
+                </div>
+                <div class="form-group">
+                    <label for="cliente_rg">RG</label>
+                    <input type="text" id="cliente_rg">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_email">E-mail</label>
+                    <input type="email" id="cliente_email">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_telefone">Telefone</label>
+                    <input type="tel" id="cliente_telefone" placeholder="(00) 00000-0000">
+                </div>
+            </div>
+
+            <h3 style="color: var(--cor-amarelo); margin: 25px 0 15px 0;">Endereço</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="cliente_logradouro">Logradouro</label>
+                    <input type="text" id="cliente_logradouro" placeholder="Rua, Avenida, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_numero">Número</label>
+                    <input type="text" id="cliente_numero">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_complemento">Complemento</label>
+                    <input type="text" id="cliente_complemento" placeholder="Apto, Bloco, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_bairro">Bairro</label>
+                    <input type="text" id="cliente_bairro">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_cidade">Cidade</label>
+                    <input type="text" id="cliente_cidade">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_uf">UF</label>
+                    <select id="cliente_uf">
+                        <option value="">UF</option>
+                        <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                        <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                        <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                        <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                        <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                        <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                        <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                        <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                        <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cliente_cep">CEP</label>
+                    <input type="text" id="cliente_cep" placeholder="00000-000">
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 2: Dados do Serviço -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">⚙️</span>
+                DADOS DO SERVIÇO
+            </h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="data_inicio">Data de Início *</label>
+                    <input type="date" id="data_inicio" required>
+                </div>
+                <div class="form-group">
+                    <label for="data_fim">Data de Fim</label>
+                    <input type="date" id="data_fim">
+                </div>
+                <div class="form-group">
+                    <label for="horario_inicio">Horário Início</label>
+                    <input type="text" id="horario_inicio" placeholder="08:00">
+                </div>
+                <div class="form-group">
+                    <label for="horario_fim">Horário Fim</label>
+                    <input type="text" id="horario_fim" placeholder="18:00">
+                </div>
+            </div>
+
+            <h3 style="color: var(--cor-amarelo); margin: 25px 0 15px 0;">Postos de Trabalho</h3>
+            <div class="posto-form">
+                <h3>Adicionar Posto</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="posto_qtd">Quantidade *</label>
+                        <input type="number" id="posto_qtd" min="1" placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="posto_local">Local *</label>
+                        <input type="text" id="posto_local" placeholder="Portaria Principal">
+                    </div>
+                    <div class="form-group">
+                        <label for="posto_escala">Escala</label>
+                        <input type="text" id="posto_escala" placeholder="12x36">
+                    </div>
+                    <div class="form-group">
+                        <label for="posto_horario">Horário</label>
+                        <input type="text" id="posto_horario" placeholder="24h">
+                    </div>
+                </div>
+                <button class="btn" onclick="adicionarPosto()" style="margin-top: 15px;">
+                    ADICIONAR POSTO
+                </button>
+            </div>
+
+            <div class="posto-list" id="postosList">
+                <div style="padding: 20px; text-align: center; color: #999;">
+                    Nenhum posto adicionado ainda
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 3: Dados Financeiros -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">💰</span>
+                DADOS FINANCEIROS
+            </h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="valor_total">Valor Total (R$) *</label>
+                    <input type="text" id="valor_total" placeholder="1.000,00" required>
+                </div>
+                <div class="form-group">
+                    <label for="dia_vencimento">Dia de Vencimento</label>
+                    <input type="number" id="dia_vencimento" min="1" max="31" placeholder="5">
+                </div>
+                <div class="form-group full-width">
+                    <label for="chave_pix">Chave PIX</label>
+                    <input type="text" id="chave_pix" placeholder="email@exemplo.com ou CPF ou telefone">
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 4: Dados Contratuais -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📋</span>
+                DADOS CONTRATUAIS
+            </h2>
+            
+            <h3 style="color: var(--cor-amarelo); margin-bottom: 15px;">Foro</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="foro_cidade">Cidade do Foro</label>
+                    <input type="text" id="foro_cidade" value="Santa Maria">
+                </div>
+                <div class="form-group">
+                    <label for="foro_uf">UF do Foro</label>
+                    <input type="text" id="foro_uf" value="RS">
+                </div>
+            </div>
+
+            <h3 style="color: var(--cor-amarelo); margin: 25px 0 15px 0;">Local de Assinatura</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="cidade_assinatura">Cidade</label>
+                    <input type="text" id="cidade_assinatura" value="Santa Maria">
+                </div>
+                <div class="form-group">
+                    <label for="uf_assinatura">UF</label>
+                    <input type="text" id="uf_assinatura" value="RS">
+                </div>
+            </div>
+
+            <div class="checkbox-group" style="margin: 20px 0;">
+                <input type="checkbox" id="usar_data_hoje" checked>
+                <label for="usar_data_hoje">Usar data de hoje para assinatura</label>
+            </div>
+
+            <div class="form-grid" id="data_personalizada" style="display: none;">
+                <div class="form-group">
+                    <label for="dia_assinatura">Dia</label>
+                    <input type="number" id="dia_assinatura" min="1" max="31">
+                </div>
+                <div class="form-group">
+                    <label for="mes_assinatura">Mês</label>
+                    <select id="mes_assinatura">
+                        <option value="janeiro">Janeiro</option>
+                        <option value="fevereiro">Fevereiro</option>
+                        <option value="março">Março</option>
+                        <option value="abril">Abril</option>
+                        <option value="maio">Maio</option>
+                        <option value="junho">Junho</option>
+                        <option value="julho">Julho</option>
+                        <option value="agosto">Agosto</option>
+                        <option value="setembro">Setembro</option>
+                        <option value="outubro">Outubro</option>
+                        <option value="novembro">Novembro</option>
+                        <option value="dezembro">Dezembro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ano_assinatura">Ano</label>
+                    <input type="number" id="ano_assinatura" min="2024" max="2030">
+                </div>
+            </div>
+
+            <h3 style="color: var(--cor-amarelo); margin: 25px 0 15px 0;">Testemunhas</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="testemunha_1_cpf">CPF Testemunha 1</label>
+                    <input type="text" id="testemunha_1_cpf" placeholder="000.000.000-00">
+                </div>
+                <div class="form-group">
+                    <label for="testemunha_2_cpf">CPF Testemunha 2</label>
+                    <input type="text" id="testemunha_2_cpf" placeholder="000.000.000-00">
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            Pronto para gerar contratos
+        </div>
+    </div>
+
+    <!-- Modal de Preview -->
+    <div class="modal" id="previewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Preview do Contrato</h2>
+                <button class="close" onclick="fecharModal()">&times;</button>
+            </div>
+            <div id="previewContent">
+                <!-- Conteúdo do preview será inserido aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal" id="loadingModal">
+        <div class="modal-content" style="text-align: center;">
+            <div class="loading-spinner"></div>
+            <h3>Gerando contrato...</h3>
+            <p>Aguarde um momento</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
