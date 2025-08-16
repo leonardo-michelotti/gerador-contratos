@@ -268,11 +268,11 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     debug_mode = os.environ.get('FLASK_ENV') != 'production'
     
+    # Verifica template mas SEMPRE inicia a aplicação
     if ensure_template_exists():
         print("✅ Template configurado corretamente!")
-        app.run(debug=debug_mode, host='0.0.0.0', port=port)
     else:
-        print("❌ Não foi possível encontrar o template. Aplicação não iniciada.")
-        print("\n📋 INSTRUÇÕES:")
-        print("1. Coloque o arquivo 'contrato_base.docx' na pasta uploads/")
-        print("2. Execute novamente: python app.py")
+        print("⚠️ Template não encontrado - algumas funcionalidades podem não funcionar")
+    
+    # SEMPRE inicia a aplicação
+    app.run(debug=debug_mode, host="0.0.0.0", port=port)
